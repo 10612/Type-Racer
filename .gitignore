@@ -2,6 +2,6 @@
 .dockerignore
 dockerfile
 package-lock.json
-package.json
 tsconfig.json
 vite.config.js
+/src/dist

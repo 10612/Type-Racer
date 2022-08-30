@@ -1,22 +1,19 @@
 import React, { useMemo } from "react";
+import { timeSpanToClock } from "../../utils";
+import Props from "./types";
+import "./style.css";
 
-interface Props {
-  newTime: number;
-  gameEnded: boolean;
-  timeSpanToClock: (timeSpan: number) => string;
-}
-
-function Leaderboard({newTime, gameEnded, timeSpanToClock}: Props) {
+function Leaderboard({ gameState }: Props) {
 
   let leaderboard = getLeaderboard();
   let leaderboardHTML = updateLeaderboardHTML();
-  useMemo(updateLeaderboard, [gameEnded]);
-  
+  useMemo(updateLeaderboard, [!gameState.gameStarted]);
+
 
   function getLeaderboard(): number[] {
     const localLeaderboard = localStorage.getItem("leaderboard");
-    if(localLeaderboard === null) {
-      return [6001000, 6002000, 6003000, 6004000, 6005000];
+    if (localLeaderboard === null) {
+      return [30001000, 24002000, 18003000, 12004000, 6005000];
     }
     else {
       return JSON.parse(localLeaderboard);
@@ -32,10 +29,10 @@ function Leaderboard({newTime, gameEnded, timeSpanToClock}: Props) {
   }
 
   function updateLeaderboard(): void {
-    if(gameEnded && newTime !== 0) {
-      const placement = leaderboard.findIndex(position => position > newTime);
-      if(placement >= 0) {
-        leaderboard.splice(placement, 0, newTime);
+    if (!gameState.gameStarted && gameState.timeElapsed !== 0) {
+      const placement = leaderboard.findIndex(position => position > gameState.timeElapsed);
+      if (placement >= 0) {
+        leaderboard.splice(placement, 0, gameState.timeElapsed);
         leaderboard.pop();
         localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
         leaderboardHTML = updateLeaderboardHTML();

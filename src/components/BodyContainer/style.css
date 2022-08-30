@@ -1,0 +1,8 @@
+#textContainer {
+  position: relative;
+  width: 500px;
+  height: min-content;
+  min-height: 42px;
+  left: calc(30vw - 250px);
+  overflow: hidden;
+}
