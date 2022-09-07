@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { store } from "./GlobalState";
+import useTimeState from "./TimeState";
+import useTextState from "./TextState";
+import { TextState, TimeState } from "../types";
 
 export default function useGameState() {
-  const [gameStarted, setStarted] = useState(false);
-  const [startTime, setStartTime] = useState(Date.now());
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [typedWord, setTypedWord] = useState("");
-  const [textArray, setTextArray] = useState(["The game will start once you start the clock."] as string[]);
-  return {
-    startTime, gameStarted, timeElapsed, typedWord, textArray,
-    setStarted, setStartTime, setTimeElapsed, setTypedWord, setTextArray
-  };
+  const { gameStarted, setGameStarted } = useContext(store);
+  const { startTimer, updateClock }: TimeState = useTimeState();
+  const { supersedeArray }: TextState = useTextState();
+
+  function toggleGame() {
+    if (gameStarted) {
+      updateClock();
+      setGameStarted(false);
+    }
+    else {
+      setGameStarted(true);
+      supersedeArray();
+      startTimer();
+    }
+  }
+
+  return { gameStarted, toggleGame };
 }

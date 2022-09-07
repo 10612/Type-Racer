@@ -1,26 +1,32 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import useGameState from "../../hooks/GameState";
+import useTimeState from "../../hooks/TimeState";
+import useLocalStorage from "../../hooks/LocalStorage";
+import getLeaderboard from "./utils";
 import { timeSpanToClock } from "../../utils";
-import Props from "./types";
+import { GameState, TimeState } from "../../types";
 import "./style.css";
 
-function Leaderboard({ gameState }: Props) {
+function Leaderboard() {
 
-  let leaderboard = getLeaderboard();
-  let leaderboardHTML = updateLeaderboardHTML();
-  useMemo(updateLeaderboard, [!gameState.gameStarted]);
+  const { gameStarted }: GameState = useGameState();
+  const { timeElapsed }: TimeState = useTimeState();
+  const { setItem } = useLocalStorage();
+  const [leaderboard, setLeaderboard] = useState(getLeaderboard());
+  useEffect(updateLeaderboard, [gameStarted]);
+  const leaderboardList = useMemo(updateLeaderboardList, [leaderboard]);
 
-
-  function getLeaderboard(): number[] {
-    const localLeaderboard = localStorage.getItem("leaderboard");
-    if (localLeaderboard === null) {
-      return [30001000, 24002000, 18003000, 12004000, 6005000];
-    }
-    else {
-      return JSON.parse(localLeaderboard);
+  function updateLeaderboard(): void {
+    if (!gameStarted && timeElapsed !== 0) {
+      const placement = leaderboard.findIndex(position => position > timeElapsed);
+      if (placement >= 0) {
+        setLeaderboard(leaderboard.slice(0, placement).concat([timeElapsed], leaderboard.slice(placement, 4)));
+      }
     }
   }
 
-  function updateLeaderboardHTML(): JSX.Element[] {
+  function updateLeaderboardList(): JSX.Element[] {
+    setItem("leaderboard", JSON.stringify(leaderboard));
     return leaderboard.map((time, placement) =>
       <li key={placement}>
         {timeSpanToClock(time)}
@@ -28,22 +34,10 @@ function Leaderboard({ gameState }: Props) {
     );
   }
 
-  function updateLeaderboard(): void {
-    if (!gameState.gameStarted && gameState.timeElapsed !== 0) {
-      const placement = leaderboard.findIndex(position => position > gameState.timeElapsed);
-      if (placement >= 0) {
-        leaderboard.splice(placement, 0, gameState.timeElapsed);
-        leaderboard.pop();
-        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-        leaderboardHTML = updateLeaderboardHTML();
-      }
-    }
-  }
-
   return (
-    <div id="leaderboard">
+    <div className="leaderboard">
       <h2>Leaderboard</h2>
-      <ol>{leaderboardHTML}</ol>
+      <ol>{leaderboardList}</ol>
     </div>
   );
 }

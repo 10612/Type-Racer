@@ -1,12 +1,15 @@
 import React from "react";
+import GlobalState from "./hooks/GlobalState";
 import Header from "./components/HeaderContainer/Header";
 import Body from "./components/BodyContainer/Body";
 
 function App() {
   return (
     <div id="app">
-      <Header />
-      <Body />
+      <GlobalState>
+        <Header />
+        <Body />
+      </GlobalState>
     </div>
   );
 }

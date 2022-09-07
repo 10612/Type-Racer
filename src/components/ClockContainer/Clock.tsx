@@ -1,19 +1,29 @@
-import React, { useEffect, useRef } from "react";
-import { timeSpanToClock, updateClock } from "../../utils";
-import Props from "./types";
+import React, { useState, useEffect, useRef } from "react";
+import useGameState from "../../hooks/GameState";
+import useTimeState from "../../hooks/TimeState";
+import { timeSpanToClock } from "../../utils";
+import { GameState, TimeState } from "../../types";
+import { ToggleClock } from "./types";
 import "./style.css";
 
-function Clock({ gameState, startGame, clockRef }: Props) {
+function Clock() {
 
   let timeElapsedId: NodeJS.Timer;
-  useEffect(toggleClock, [gameState.gameStarted]);
+  const { gameStarted, toggleGame }: GameState = useGameState();
+  const { timeElapsed, updateClock }: TimeState = useTimeState();
+  const [disable, setDisable] = useState(false);
+  useEffect(toggleClock, [gameStarted]);
   const hasInitialized = useRef(false);
 
-  function toggleClock(): (() => void) | void {
+  function toggleClock(): ToggleClock {
     if (hasInitialized.current) {
-      if (gameState.gameStarted) {
-        timeElapsedId = setInterval(() => { updateClock(gameState) }, 47);
+      if (gameStarted) {
+        timeElapsedId = setInterval(() => { updateClock() }, 47);
+        setDisable(true);
         return () => { clearInterval(timeElapsedId) };
+      }
+      else {
+        setDisable(false);
       }
     }
     else {
@@ -22,8 +32,8 @@ function Clock({ gameState, startGame, clockRef }: Props) {
   }
 
   return (
-    <button id="clock" ref={clockRef} onClick={startGame}>
-      {timeSpanToClock(gameState.timeElapsed)}
+    <button className="clock" onClick={toggleGame} disabled={disable}>
+      {timeSpanToClock(timeElapsed)}
     </button>
   );
 }

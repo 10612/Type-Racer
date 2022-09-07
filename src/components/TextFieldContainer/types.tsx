@@ -1,7 +1,8 @@
-import GameState, { Ref, Input } from "../../types";
-
-export default interface Props {
-  gameState: GameState;
-  tabable: number;
-  textFieldRef: Ref<Input | null>;
+export interface HandleClick {
+  (event: React.MouseEvent<HTMLInputElement>): void;
 }
+export interface HandleKeyDown {
+  (event: React.KeyboardEvent<HTMLInputElement>): void;
+}
+
+export type TextFieldRef = React.MutableRefObject<HTMLInputElement | null>;

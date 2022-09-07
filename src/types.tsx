@@ -1,17 +1,26 @@
-export default interface GameState {
-  startTime: number;
+export interface GameState {
   gameStarted: boolean;
-  timeElapsed: number;
-  typedWord: string;
-  textArray: string[];
-  setStarted: React.Dispatch<React.SetStateAction<boolean>>;
-  setStartTime: React.Dispatch<React.SetStateAction<number>>;
-  setTimeElapsed: React.Dispatch<React.SetStateAction<number>>;
-  setTypedWord: React.Dispatch<React.SetStateAction<string>>;
-  setTextArray: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleGame: () => void;
 };
 
-export type Ref<T> = React.MutableRefObject<T>;
-export type Click<T> = React.MouseEvent<T>;
-export type Input = HTMLInputElement;
-export type Button = HTMLButtonElement;
+export interface TextState {
+  typedWord: string;
+  textArray: string[];
+  supersedeArray: () => void;
+  setTypedWord: React.Dispatch<React.SetStateAction<string>>;
+  removeWord: () => void;
+};
+
+export interface TimeState {
+  startTime: number;
+  timeElapsed: number;
+  startTimer: () => void;
+  updateClock: () => void;
+};
+
+export interface Global extends GameState, TextState, TimeState {
+  setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  setTextArray: React.Dispatch<React.SetStateAction<string[]>>;
+  setStartTime: React.Dispatch<React.SetStateAction<number>>;
+  setTimeElapsed: React.Dispatch<React.SetStateAction<number>>;
+}

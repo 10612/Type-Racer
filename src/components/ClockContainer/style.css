@@ -1,4 +1,4 @@
-#clock {
+.clock {
   position: relative;
   left: calc(30vw + 150px);
   display: flex;
