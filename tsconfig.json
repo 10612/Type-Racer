@@ -11,6 +11,11 @@
     "strict": true,
     "sourceMap": true,
     "target": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "components": ["src/components"],
+      "hooks": ["src/hooks"]
+    }
   },
   "exclude": [
     "node_modules"

@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import useGameState from "../../hooks/GameState";
-import useTimeState from "../../hooks/TimeState";
-import { timeSpanToClock } from "../../utils";
-import { GameState, TimeState } from "../../types";
+import { useGameState, useTimeState } from "hooks";
 import { ToggleClock } from "./types";
 import "./style.css";
 
-function Clock() {
+export function Clock() {
 
   let timeElapsedId: NodeJS.Timer;
-  const { gameStarted, toggleGame }: GameState = useGameState();
-  const { timeElapsed, updateClock }: TimeState = useTimeState();
+  const { gameStarted, toggleGame } = useGameState();
+  const { timeElapsed, updateClock, timeSpanToClock } = useTimeState();
   const [disable, setDisable] = useState(false);
   useEffect(toggleClock, [gameStarted]);
   const hasInitialized = useRef(false);
@@ -37,5 +34,3 @@ function Clock() {
     </button>
   );
 }
-
-export default Clock;

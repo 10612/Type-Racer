@@ -1,2 +1,9 @@
-FROM nginx:1.10.1-alpine
-COPY ../ /usr/share/nginx/html
+FROM node:17-alpine as builder
+
+WORKDIR /app
+COPY package.json . 
+COPY package-lock.json .
+RUN npm install
+COPY . .
+CMD npm run dev
+EXPOSE 3000

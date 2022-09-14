@@ -8,16 +8,10 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 export default defineConfig({
   root: "src",
   resolve: {
-    alias: [
-      {
-        find: /^~/,
-        replacement: ''
-      },
-      {
-        find: '@',
-        replacement: path.resolve(__dirname, 'src')
-      }
-    ],
+    alias: {
+        'components': path.resolve(__dirname, 'src/components'),
+        'hooks': path.resolve(__dirname, 'src/hooks')
+    },
     extensions: [
       '.mjs',
       '.js',
@@ -34,10 +28,12 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         data: {
-          title: 'another-type-racer'
+          title: 'type-racer'
         }
       }
     })
   ],
-  build: {}
+  build: {
+    target: 'esnext'
+  }
 })

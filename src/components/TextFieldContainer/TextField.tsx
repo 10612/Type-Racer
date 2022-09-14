@@ -1,14 +1,12 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import useGameState from "../../hooks/GameState";
-import useTextState from "../../hooks/TextState";
-import { GameState, TextState } from "../../types";
+import { useGameState, useTextState } from "hooks";
 import { HandleClick, HandleKeyDown, TextFieldRef } from "./types";
 import "./style.css";
 
-function TextField() {
+export function TextField() {
 
-  const { gameStarted, toggleGame }: GameState = useGameState();
-  const { typedWord, textArray, setTypedWord, removeWord }: TextState = useTextState();
+  const { gameStarted, toggleGame } = useGameState();
+  const { typedWord, textArray, setTypedWord, removeWord } = useTextState();
   const textField: TextFieldRef = useRef(null);
   useEffect(textFieldFocus, [gameStarted]);
 
@@ -47,5 +45,3 @@ function TextField() {
     onKeyDown={handleKeyDown}
   />;
 }
-
-export default TextField;

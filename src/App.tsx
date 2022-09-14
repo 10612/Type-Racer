@@ -1,7 +1,6 @@
 import React from "react";
-import GlobalState from "./hooks/GlobalState";
-import Header from "./components/HeaderContainer/Header";
-import Body from "./components/BodyContainer/Body";
+import { GlobalState } from "hooks";
+import { Header, Body } from "components";
 
 function App() {
   return (

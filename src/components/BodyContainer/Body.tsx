@@ -1,11 +1,8 @@
 import React from "react";
-import Clock from "../ClockContainer/Clock";
-import WordsToType from "../WordsToTypeContainer/WordsToType";
-import TextField from "../TextFieldContainer/TextField";
-import Leaderboard from "../LeadeboardContainer/Leaderboard";
+import { Clock, WordsToType, TextField, Leaderboard } from "components";
 import "./style.css";
 
-function Body() {
+export function Body() {
 
   return (
     <div>
@@ -19,5 +16,3 @@ function Body() {
     </div>
   );
 }
-
-export default Body;

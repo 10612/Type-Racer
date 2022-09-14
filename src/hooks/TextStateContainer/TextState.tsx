@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { store } from "./GlobalState";
+import { store } from "hooks";
+import { TextState } from "./types";
 
 const dictionaryPromise = await ((getDictionary() as unknown as string | void));
 let dictionary: string[];
@@ -19,7 +20,7 @@ async function getDictionary() {
     );
 }
 
-function useTextState() {
+export function useTextState() {
 
   const { typedWord, setTypedWord, textArray, setTextArray } = useContext(store);
 
@@ -43,7 +44,5 @@ function useTextState() {
     setTextArray(textArray.slice(1));
   }
 
-  return { typedWord, textArray, supersedeArray, setTypedWord, removeWord };
+  return { typedWord, textArray, supersedeArray, setTypedWord, removeWord } as TextState;
 }
-
-export default useTextState;

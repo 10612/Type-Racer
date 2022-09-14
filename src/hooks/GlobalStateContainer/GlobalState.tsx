@@ -1,9 +1,9 @@
 import React, { useState, useMemo, createContext } from "react";
-import { Global } from "../types";
+import { Global } from "./types";
 
 export const store = createContext({} as Global);
 
-export default function GlobalState({ children }: { children: any }) {
+export function GlobalState({ children }: { children: React.ReactFragment }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [typedWord, setTypedWord] = useState("");
   const [textArray, setTextArray] = useState([] as string[]);

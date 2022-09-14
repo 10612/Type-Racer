@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
-import useGameState from "../../hooks/GameState";
-import useTimeState from "../../hooks/TimeState";
-import useLocalStorage from "../../hooks/LocalStorage";
-import getLeaderboard from "./utils";
-import { timeSpanToClock } from "../../utils";
-import { GameState, TimeState } from "../../types";
+import { useGameState, useTimeState, useLocalStorage } from "hooks";
 import "./style.css";
 
-function Leaderboard() {
+export function Leaderboard() {
 
-  const { gameStarted }: GameState = useGameState();
-  const { timeElapsed }: TimeState = useTimeState();
-  const { setItem } = useLocalStorage();
-  const [leaderboard, setLeaderboard] = useState(getLeaderboard());
+  const { gameStarted } = useGameState();
+  const { timeElapsed, timeSpanToClock } = useTimeState();
+  const { getItem, setItem } = useLocalStorage("leaderboard");
+  const leaderboardArray = useMemo(() => typeof getItem === "number" ? [6001000, 6002000, 6003000, 6004000, 6005000] : getItem, []) as number[];
+  const [leaderboard, setLeaderboard] = useState(leaderboardArray);
   useEffect(updateLeaderboard, [gameStarted]);
   const leaderboardList = useMemo(updateLeaderboardList, [leaderboard]);
 
@@ -26,7 +22,7 @@ function Leaderboard() {
   }
 
   function updateLeaderboardList(): JSX.Element[] {
-    setItem("leaderboard", JSON.stringify(leaderboard));
+    setItem(leaderboard);
     return leaderboard.map((time, placement) =>
       <li key={placement}>
         {timeSpanToClock(time)}
@@ -41,5 +37,3 @@ function Leaderboard() {
     </div>
   );
 }
-
-export default Leaderboard;
