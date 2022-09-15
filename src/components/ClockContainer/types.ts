@@ -1,0 +1,1 @@
+export type ToggleClock = (() => void) | void;

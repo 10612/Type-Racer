@@ -1,0 +1,16 @@
+.clock {
+  position: relative;
+  left: calc(30vw + 150px);
+  display: flex;
+  width: 100px;
+  height: 50px;
+  margin-bottom: 5px;
+  border: 9px solid #999999;
+  background-image: linear-gradient(to top left, #1be21bcc, #2aad2acc);
+  background-color: lightgray;
+  color: black;
+  border-radius: 10%;
+  font-family: cursive;
+  text-indent: 5px;
+  align-items: center;
+}

@@ -1,0 +1,11 @@
+.textField {
+  display: block;
+  width: 485px;
+  height: 42px;
+  border-width: 0px;
+  background-image: linear-gradient(silver, 75%, #a4b4c6);
+  font-size: x-large;
+  padding-left: 15px;
+  border-radius: 10px;
+  outline: none;
+}
