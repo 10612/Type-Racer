@@ -33,6 +33,9 @@ export default defineConfig({
       }
     })
   ],
+  server: {
+    host: true
+  },
   build: {
     target: 'esnext'
   }
